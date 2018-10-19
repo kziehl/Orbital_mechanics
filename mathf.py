@@ -28,11 +28,29 @@ def rad2grad(rad):
 	return rad*360.0/(2*np.pi)
 	
 	
-# rotation matrix in 3D
+# rotation matrix in 3D about x 
 
-def rot_by_phi( phi , r ):
+def rotx_by_phi( phi , r ):
 	rt = []
-	rot_mat = np.array( [ [ 1 , 0 , 0 ] , [ 0 , np.cos( phi ) , -np.sin( phi ) ] , [ 0 , np.sin( phi ) , np.cos( phi ) ] ] )
+	rot_mat = np.array( [ [ 1 , 0 , 0 ] , [ 0 , np.cos( phi ) , -np.sin( phi ) ] , [ - np.sin( phi ) , 0 ,  np.cos( phi ) ] ] )
+	for it in r:
+		rt.append( rot_mat.dot( it ) ) 
+	return rt
+	
+# rotation matrix in 3D about y 
+
+def roty_by_phi( phi , r ):
+	rt = []
+	rot_mat = np.array( [ [  np.cos( phi ) , 0 , np.sin( phi ) ] , [ 0 , 1 , 0 ] , [ 0 , np.sin( phi ) , np.cos( phi ) ] ] )
+	for it in r:
+		rt.append( rot_mat.dot( it ) ) 
+	return rt
+	
+# rotation matrix in 3D about z
+
+def rotz_by_phi( phi , r ):
+	rt = []
+	rot_mat = np.array( [ [  np.cos( phi ) , np.sin( phi ) , 0 ] , [ -np.sin( phi )  ,  np.cos( phi ) , 0 ] , [ 0 , 0 , 1 ] ] )
 	for it in r:
 		rt.append( rot_mat.dot( it ) ) 
 	return rt
@@ -53,6 +71,12 @@ def get_xyz( r ):
 	
 
 
+def newtons_method(f, df, init , e ):
+	t = init  
+	while ( f(t) / df(t) ) > e:
+		 t = t - f(t) / df(t) 
+     
+	return t 
 
 
 
